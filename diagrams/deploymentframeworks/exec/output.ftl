@@ -1,10 +1,10 @@
 [#ftl]
 
-[@initialiseJsonOutput name="entities" /]
-[@initialiseJsonOutput name="groups" /]
-[@initialiseJsonOutput name="relationships" /]
-
 [#macro exec_output_json level="" include=""]
+    [@initialiseJsonOutput name="entities" /]
+    [@initialiseJsonOutput name="groups" /]
+    [@initialiseJsonOutput name="relationships" /]
+
     [#-- Resources --]
     [#if include?has_content]
         [#include include?ensure_starts_with("/")]
