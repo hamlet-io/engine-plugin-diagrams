@@ -35,6 +35,13 @@
             resourceProvider=provider
             resourceType=componentResourceType
         /]
+
+        [#if ((solution.Links)!{})?has_content ]
+            [@addDiagramRelationshipsFromLinks
+                occurrence=occurrence
+                links=getLinkTargets(occurrence)
+            /]
+        [/#if]
     [/#if]
 
     [#list occurrence.Occurrences![] as subOccurrence]
@@ -59,6 +66,14 @@
                 resourceProvider=provider
                 resourceType=componentResourceType
             /]
+
+            [#if ((subSolution.Links)!{})?has_content ]
+                [@addDiagramRelationshipsFromLinks
+                    occurrence=subOccurrence
+                    links=getLinkTargets(subOccurrence)
+                /]
+            [/#if]
+
         [/#if]
     [/#list]
 [/#macro]
