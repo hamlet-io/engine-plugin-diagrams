@@ -41,6 +41,7 @@
 
     [#local matchOptions = [
         [ provider, service, resourceType ],
+        [ provider, "*", resourceType ],
         [ provider, service, "*" ],
         [ SHARED_PROVIDER, service, resourceType ],
         [ SHARED_PROVIDER, service, "*" ],
