@@ -2,8 +2,9 @@
 
 [#assign DIAGRAMSTEST_DB_RESOURCE_TYPE = "db" ]
 
-[@addDiagramServiceMapping
+[@addDiagramResourceMapping
     provider=DIAGRAMSTEST_PROVIDER
-    service=DIAGRAMSTEST_DB_SERVICE
+    service="*"
+    resourceType=DIAGRAMSTEST_DB_RESOURCE_TYPE
     diagramsClass="diagrams.onprem.database.Postgresql"
 /]
