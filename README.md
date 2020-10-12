@@ -17,10 +17,10 @@ Using this framework combined with the shared provider components flow we can ge
 ## Installation
 
 1. Clone this repository into your hamlet workspace
-2. Add the pth to the cloned location to the `GENERATION_PLUGINS_DIR` env var
+2. Add the pth to the cloned location to the `GENERATION_PLUGIN_DIR` env var
 
     ```bash
-    export GENERATION_PLUGINS_DIR="$(pwd);${GENERATION_PLUGINS_DIR}
+    export GENERATION_PLUGINS_DIR="$(pwd);${GENERATION_PLUGIN_DIR}
     ```
 
 3. The plugin will now be avaialble as a provider to hamlet
