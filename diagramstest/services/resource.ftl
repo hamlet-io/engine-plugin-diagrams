@@ -1,6 +1,6 @@
 [#ftl]
 
-[#function getExistingReference resourceId attributeType="" inRegion="" inDeploymentUnit="" inAccount=(accountObject.AWSId)!""]
+[#function getExistingReference resourceId attributeType="" inRegion="" inDeploymentUnit="" inAccount=""]
     [#local attributeType = (attributeType == REFERENCE_ATTRIBUTE_TYPE)?then(
                                 "",
                                 attributeType
