@@ -5,12 +5,9 @@
         name="groups"
         content={
             id : {
-                "groupID" : id
-            } +
-            attributeIfContent(
-                "parentID",
-                parentId
-            )
+                "groupID" : id,
+                "parentID" : parentId
+            }
         }
     /]
 [/#macro]
