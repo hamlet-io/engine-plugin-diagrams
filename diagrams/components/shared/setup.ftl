@@ -19,14 +19,14 @@
         id=componentName
     /]
 
-    [@execDiagramGroup
-        id=core.Name
-        parentId=componentName
-    /]
-
     [#if (resources!{})?has_content ]
         [#local primaryResourceId = resources?keys[0] ]
         [#local componentResourceType = (resources[primaryResourceId].Type)!core.Type ]
+
+        [@execDiagramGroup
+            id=core.Name
+            parentId=componentName
+        /]
 
         [@execDiagramEntity
             id=core.Id
@@ -50,14 +50,14 @@
         [#local subSolution = subOccurrence.Configuration.Solution]
         [#local subResources = subOccurrence.State.Resources ]
 
-        [@execDiagramGroup
-            id=subCore.Name
-            parentId=core.Name
-        /]
-
         [#if (subResources!{})?has_content ]
             [#local primaryResourceId = subResources?keys[0] ]
             [#local componentResourceType = (subResources[primaryResourceId].Type)!core.Type ]
+
+            [@execDiagramGroup
+                id=subCore.Name
+                parentId=core.Name
+            /]
 
             [@execDiagramEntity
                 id=subCore.Id
