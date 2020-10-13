@@ -25,7 +25,6 @@
     [#assign allDeploymentUnits = false]
   [/#if]
 
-
   [#-- Preload the configuration as it won't be avaiable via the other providers --]
   [@includeProviderComponentConfiguration
     provider=DIAGRAMS_PROVIDER

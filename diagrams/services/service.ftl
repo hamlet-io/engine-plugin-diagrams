@@ -73,6 +73,14 @@
 [/#macro]
 
 
+[#macro execDiagramName name ]
+    [@addToJsonOutput
+        name="details"
+        section="Name"
+        content=name
+    /]
+[/#macro]
+
 [#-- Set the default catch all mapping --]
 [@addDiagramResourceMapping
     provider=SHARED_PROVIDER
