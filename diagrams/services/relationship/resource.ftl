@@ -24,8 +24,8 @@
         name="relationships"
         content={
             formatId(startEntityId, endIdentityId) : {
-                "startEntityId" : startEntityId,
-                "endIdentityId" : endIdentityId,
+                "startEntityID" : startEntityId,
+                "endEntityID" : endIdentityId,
                 "direction" : direction
             }
         }
