@@ -4,7 +4,7 @@
     [@addDefaultGenerationContract subsets=[ "config" ] /]
 [/#macro]
 
-[#macro shared_diagram_config occurrence ]
+[#macro shared_diagram_config_overview occurrence ]
 
     [#local core = occurrence.Core]
     [#local solution = occurrence.Configuration.Solution]
@@ -31,7 +31,7 @@
         [@execDiagramEntity
             id=core.Id
             name=core.FullName
-            groupdId=core.Name
+            groupId=core.Name
             resourceProvider=provider
             resourceType=componentResourceType
         /]
@@ -62,7 +62,7 @@
             [@execDiagramEntity
                 id=subCore.Id
                 name=subCore.FullName
-                groupdId=subCore.Name
+                groupId=subCore.Name
                 resourceProvider=provider
                 resourceType=componentResourceType
             /]
@@ -75,5 +75,34 @@
             [/#if]
 
         [/#if]
+    [/#list]
+[/#macro]
+
+[#macro shared_diagram_config_resources occurrence ]
+
+    [#local solution = occurrence.Configuration.Solution ]
+    [#local defaultDeploymentGroup = solution["deployment:Group"]!""]
+
+    [#local allOccurrences = asFlattenedArray( [ occurrence, occurrence.Occurrences![] ], true )]
+    [#list allOccurrences as occurrence ]
+        [#local resources = occurrence.State.Resources ]
+        [#local solution = occurrence.Configuration.Solution]
+
+        [#local placement = (occurrence.State.ResourceGroups["default"].Placement)!{} ]
+        [#local provider = placement.Provider!commandLineOptions.Deployment.Provider.Names[0] ]
+
+        [#local deploymentGroup = solution["deployment:Group"]!defaultDeploymentGroup ]
+
+        [@execDiagramGroup
+            id=deploymentGroup
+            parentId=""
+        /]
+
+        [@addDiagramEntitiesFromResources
+            resources=resources!{}
+            groupId=deploymentGroup
+            provider=provider
+        /]
+
     [/#list]
 [/#macro]
