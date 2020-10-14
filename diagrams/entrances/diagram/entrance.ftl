@@ -2,7 +2,26 @@
 
 [#macro diagrams_entrance_diagram ]
 
+
+  [#if (commandLineOptions.Deployment.Unit.Subset!"") == "generationcontract" ]
+    [@setupContractOutputs /]
+    [#assign allDeploymentUnits = false]
+  [/#if]
+
   [#assign allDeploymentUnits = true]
+
+  [#local diagramType = commandLineOptions.Deployment.Group.Name]
+  [#local diagramTypeDetails = getDiagramType(diagramType)]
+
+  [#if ! diagramTypeDetails?has_content ]
+    [@fatal
+      message="Invalid Diagram Type"
+      detail="Please provide an available diagram type using the deploymentGroup/level"
+      context={
+        "DeploymentGroup" : commandLineOptions.Deployment.Group.Name
+      }
+    /]
+  [/#if]
 
   [#-- override the deployment group to get all deployment groups --]
   [@addCommandLineOption
@@ -21,10 +40,6 @@
       }
   /]
 
-  [#if (commandLineOptions.Deployment.Unit.Subset!"") == "generationcontract" ]
-    [#assign allDeploymentUnits = false]
-  [/#if]
-
   [#-- Preload the configuration as it won't be avaiable via the other providers --]
   [@includeProviderComponentConfiguration
     provider=DIAGRAMS_PROVIDER
@@ -41,6 +56,7 @@
       deploymentFramework=DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
       type=commandLineOptions.Deployment.Output.Type
       format=commandLineOptions.Deployment.Output.Format
+      level=diagramTypeDetails.DeploymentGroup!""
   /]
 
 [/#macro]

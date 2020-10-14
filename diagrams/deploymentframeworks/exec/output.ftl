@@ -1,5 +1,8 @@
 [#ftl]
 
+[#-- output types --]
+[#assign DIAGRAMINFO_DEFAULT_OUTPUT_TYPE = "diagraminfo" ]
+
 [#macro exec_output_json level="" include=""]
     [@initialiseJsonOutput name="details" /]
     [@initialiseJsonOutput name="entities" /]
@@ -17,8 +20,12 @@
         /]
     [/#if]
 
+    [#local diagramTypeDetails = getDiagramType(level)]
+
+    [@debug message="DiagramDetails" context=diagramTypeDetails enabled=true /]
+
     [@execDiagramName
-        name=formatSegmentFullName()
+        name=formatSegmentFullName(diagramTypeDetails.Name)
     /]
 
     [@toJSON
@@ -39,3 +46,47 @@
     /]
     [@serialiseOutput name=JSON_DEFAULT_OUTPUT_TYPE /]
 [/#macro]
+
+
+[#-- Diagraminfo --]
+[#macro exec_output_diagraminfo level="" include="" ]
+    [@initialiseJsonOutput name="diagrams" /]
+
+    [@processFlows
+        level=level
+        framework=DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
+        flows=commandLineOptions.Flow.Names
+    /]
+
+    [@toJSON
+        {
+            "Metadata" : {
+                "Id" : "hamlet-info",
+                "Prepared" : .now?iso_utc,
+                "RunId" : commandLineOptions.Run.Id,
+                "RequestReference" : commandLineOptions.References.Request,
+                "ConfigurationReference" : commandLineOptions.References.Configuration
+            },
+            "Diagrams" : getOutputContent("diagrams")?values
+        } +
+        attributeIfContent("COTMessages", logMessages)
+    /]
+[/#macro]
+
+[#macro diagramInfoDiagram type details ]
+    [@mergeWithJsonOutput
+        name="diagrams"
+        content={
+            type : details
+        }
+    /]
+[/#macro]
+
+
+[@addGenerationContractStepOutputMapping
+    provider=DIAGRAMS_PROVIDER
+    subset="diagraminfo"
+    outputType=DIAGRAMINFO_DEFAULT_OUTPUT_TYPE
+    outputFormat=""
+    outputSuffix="diagraminfo.json"
+/]
