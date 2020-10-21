@@ -5,73 +5,82 @@
 [#assign DIAGRAMS_GROUP_SERVICE = "group" ]
 [#assign DIAGRAMS_RELATIONSHIP_SERVICE = "relationship" ]
 
-[#-- Service Mappings map a particular hamlet service type to the appropriate class name used in diagrams --]
-[#assign diagramMappings = {} ]
+[#assign DIAGRAMS_SERVICERESOURCE_SECTION = "diagrams" ]
 
+[#-- used to provide a provider specific generic service --]
+[#assign DIAGRAMS_GENERIC_SERVICE = "generic" ]
+
+[#-- Service Mappings map a particular hamlet service type to the appropriate class name used in diagrams --]
 [#macro addDiagramServiceMapping provider service diagramsClass ]
-    [@internalMergeDiagramMappings
+    [@addServiceSection
         provider=provider
         service=service
-        resourceType="*"
-        diagramsClass=diagramsClass
+        section=DIAGRAMS_SERVICERESOURCE_SECTION
+        configuration={
+            "DiagramsClass" : diagramsClass
+        }
     /]
 [/#macro]
 
 [#macro addDiagramResourceMapping provider service resourceType diagramsClass ]
-    [@internalMergeDiagramMappings
+    [@addServiceResourceSection
         provider=provider
         service=service
-        resourceType=resourceType
-        diagramsClass=diagramsClass
+        resource=resourceType
+        section=DIAGRAMS_SERVICERESOURCE_SECTION
+        configuration={
+            "DiagramsClass" : diagramsClass
+        }
     /]
 [/#macro]
 
-[#function getDiagramClass provider service resourceType="" ]
-    [#local possibleMappings = {}]
-    [#list diagramMappings as provider,serviceMappings ]
-        [#list serviceMappings as service,resourceMappings ]
-            [#list resourceMappings as resource,details ]
-                [#local possibleMappings = mergeObjects(
-                    possibleMappings,
-                    { formatName(provider, service, resource ) : details.DiagramsClass }
-                )]
-            [/#list]
-        [/#list]
-    [/#list]
-
-    [#local matchOptions = [
-        [ provider, service, resourceType ],
-        [ provider, "*", resourceType ],
-        [ provider, service, "*" ],
-        [ SHARED_PROVIDER, service, resourceType ],
-        [ SHARED_PROVIDER, service, "*" ],
-        [ SHARED_PROVIDER, "generic", "default" ]
-    ]]
-
-    [#list matchOptions as option ]
-        [#local optionMapping = formatName(option)]
-        [#if (possibleMappings?keys)?seq_contains(optionMapping) ]
-            [#return possibleMappings[optionMapping] ]
-        [/#if]
-    [/#list]
-    [#return ""]
+[#function getDiagramResourceSection provider service resourceType  ]
+    [#return getServiceResourceSection(
+        provider,
+        service,
+        resourceType,
+        DIAGRAMS_SERVICERESOURCE_SECTION )]
 [/#function]
 
-[#macro internalMergeDiagramMappings provider service resourceType diagramsClass ]
-    [#assign diagramMappings =  mergeObjects(
-            diagramMappings,
-            {
-                provider : {
-                    service : {
-                        resourceType : {
-                            "DiagramsClass" : diagramsClass
-                        }
-                    }
-                }
-            }
-    ) ]
-[/#macro]
+[#function getDiagramServiceSection provider service ]
+    [#return getServiceSection(
+        provider,
+        service,
+        DIAGRAMS_SERVICERESOURCE_SECTION )]
+[/#function]
 
+
+[#function getDiagramClass provider service="" resourceType="" ]
+    [#if ! service?has_content ]
+        [#local service = getServiceFromResource(provider, resourceType)]
+    [/#if]
+
+    [#if getDiagramResourceSection(provider, service, resourceType)?has_content]
+        [#return (getDiagramResourceSection(provider,service,resourceType).DiagramsClass)!"" ]
+    [/#if]
+
+    [#if getDiagramServiceSection(provider, service)?has_content ]
+        [#return (getDiagramServiceSection(provider,service).DiagramsClass)!"" ]
+    [/#if]
+
+    [#if getDiagramServiceSection(provider, DIAGRAMS_GENERIC_SERVICE )?has_content]
+        [#return (getDiagramServiceSection(provider, DIAGRAMS_GENERIC_SERVICE).DiagramsClass)!"" ]
+    [/#if]
+
+    [#if getDiagramResourceSection(SHARED_PROVIDER, service, resourceType)?has_content]
+        [#return (getDiagramResourceSection(provider,service,resourceType).DiagramsClass)!"" ]
+    [/#if]
+
+    [#if getDiagramServiceSection(SHARED_PROVIDER, service)?has_content ]
+        [#return (getDiagramServiceSection(provider,service).DiagramsClass)!"" ]
+    [/#if]
+
+    [#if getDiagramServiceSection(SHARED_PROVIDER, DIAGRAMS_GENERIC_SERVICE )?has_content]
+        [#return (getDiagramServiceSection(SHARED_PROVIDER, DIAGRAMS_GENERIC_SERVICE).DiagramsClass)!"" ]
+    [/#if]
+
+    [#return ""]
+[/#function]
 
 [#macro execDiagramName name ]
     [@addToJsonOutput
@@ -82,9 +91,8 @@
 [/#macro]
 
 [#-- Set the default catch all mapping --]
-[@addDiagramResourceMapping
+[@addDiagramServiceMapping
     provider=SHARED_PROVIDER
-    service="generic"
-    resourceType="default"
+    service=DIAGRAMS_GENERIC_SERVICE
     diagramsClass="diagrams.onprem.compute.Server"
 /]
