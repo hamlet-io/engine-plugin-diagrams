@@ -4,78 +4,111 @@
     [@addDefaultGenerationContract subsets=[ "config" ] /]
 [/#macro]
 
-[#macro shared_diagram_config_overview occurrence ]
 
-    [#local core = occurrence.Core]
-    [#local solution = occurrence.Configuration.Solution]
-    [#local resources = occurrence.State.Resources ]
+[#macro setupIPAddressGroupsRelationhsips entityId IPAddressGroups inbound=true includeLocal=false]
+    [#local diagramGroups = [] ]
 
-    [#local placement = (occurrence.State.ResourceGroups["default"].Placement)!{} ]
-    [#local provider = placement.Provider!commandLineOptions.Deployment.Provider.Names[0] ]
-
-    [#local componentName = core.Component.Name ]
-
+    [#local networkGroupId = "External-Networks"]
     [@execDiagramGroup
-        id=componentName
+        id=networkGroupId
     /]
 
-    [#if (resources!{})?has_content ]
-        [#local primaryResourceId = resources?keys[0] ]
-        [#local componentResourceType = (resources[primaryResourceId].Type)!core.Type ]
+    [#list asArray(IPAddressGroups) as ipAddressGroup ]
+        [#local group = getIPAddressGroup( ipAddressGroup )]
 
-        [@execDiagramGroup
-            id=core.Name
-            parentId=componentName
-        /]
-
-        [@execDiagramEntity
-            id=core.Id
-            name=core.FullName
-            groupId=core.Name
-            resourceProvider=provider
-            resourceType=componentResourceType
-        /]
-
-        [#if ((solution.Links)!{})?has_content ]
-            [@addDiagramRelationshipsFromLinks
-                occurrence=occurrence
-                links=getLinkTargets(occurrence)
-            /]
+        [#if group.IsOpen!false ]
+            [#local diagramGroups += [ {
+                "Id" : formatId(DIAGRAMS_GENERIC_SERVICE, DIAGRAMS_INTERNET_RESOURCE_TYPE),
+                "Name" : "internet",
+                "ResourceType" : DIAGRAMS_INTERNET_RESOURCE_TYPE
+            }]]
+            [#-- Don't worry about the other IP address groups if one group is open --]
+            [#break]
         [/#if]
-    [/#if]
 
-    [#list occurrence.Occurrences![] as subOccurrence]
+        [#if includeLocal && group.IsLocal ]
 
-        [#local subCore = subOccurrence.Core]
-        [#local subSolution = subOccurrence.Configuration.Solution]
-        [#local subResources = subOccurrence.State.Resources ]
+            [#local diagramGroups += [ {
+                "Id" : formatId(DIAGRAMS_GENERIC_SERVICE, DIAGRAMS_INTRANET_RESOURCE_TYPE, group.Id),
+                "Name" : group.Name!group.Id,
+                "ResourceType" : DIAGRAMS_INTRANET_RESOURCE_TYPE
+            } ]]
+        [/#if]
 
-        [#if (subResources!{})?has_content ]
-            [#local primaryResourceId = subResources?keys[0] ]
-            [#local componentResourceType = (subResources[primaryResourceId].Type)!core.Type ]
+        [#if ! group.IsLocal ]
 
-            [@execDiagramGroup
-                id=subCore.Name
-                parentId=core.Name
-            /]
-
-            [@execDiagramEntity
-                id=subCore.Id
-                name=subCore.FullName
-                groupId=subCore.Name
-                resourceProvider=provider
-                resourceType=componentResourceType
-            /]
-
-            [#if ((subSolution.Links)!{})?has_content ]
-                [@addDiagramRelationshipsFromLinks
-                    occurrence=subOccurrence
-                    links=getLinkTargets(subOccurrence)
-                /]
-            [/#if]
-
+            [#local diagramGroups += [ {
+                "Id" : formatId(DIAGRAMS_GENERIC_SERVICE, DIAGRAMS_EXTRANET_RESOURCE_TYPE, group.Id ),
+                "Name" : group.Name!group.Id,
+                "ResourceType" : DIAGRAMS_EXTRANET_RESOURCE_TYPE
+            }]]
         [/#if]
     [/#list]
+
+    [#list diagramGroups as diagramGroup ]
+        [@execDiagramEntity
+            id=diagramGroup.Id
+            name=diagramGroup.Name
+            groupId=networkGroupId
+            resourceProvider=DIAGRAMS_PROVIDER
+            service=DIAGRAMS_GENERIC_SERVICE
+            resourceType=diagramGroup.ResourceType
+        /]
+
+        [#if inbound ]
+            [#local startEntityId = diagramGroup.Id]
+            [#local endEntityId = entityId]
+        [#else]
+            [#local startEntityId = entityId ]
+            [#local endEntityId = diagramGroup.Id ]
+        [/#if]
+
+        [@execDiagramRelationship
+            startEntityId=startEntityId
+            endEntityId=endEntityId
+            direction=ONEWAY_DIAGRAMS_RELATIONSHIP
+        /]
+    [/#list]
+[/#macro]
+
+[#macro addComponentToOverview occurrence ]
+    [#local core = occurrence.Core]
+    [#local solution = occurrence.Configuration.Solution ]
+
+    [#local privateNetworkGroupName = "" ]
+    [#if (solution.Profiles.Network!"")?has_content ]
+        [#local occurrenceNetwork = getOccurrenceNetwork(occurrence) ]
+        [#local networkLink = occurrenceNetwork.Link!{} ]
+        [#local networkLinkTarget = getLinkTarget(occurrence, networkLink ) ]
+
+        [#local privateNetworkGroupName = networkLinkTarget.Core.Name ]
+        [@execDiagramGroup
+            id=privateNetworkGroupName
+        /]
+    [/#if]
+
+    [@execDiagramGroup
+        id=core.TypedName
+        parentId=privateNetworkGroupName
+    /]
+
+    [#local allOccurrences = asFlattenedArray( [ occurrence, occurrence.Occurrences![] ], true )]
+    [#list allOccurrences as occurrence ]
+        [#local solution = occurrence.Configuration.Solution ]
+
+        [@addDiagramRelationshipsFromLinks
+            occurrence=occurrence
+        /]
+
+        [@addDiagramEntityForOccurrence
+            occurrence=occurrence
+            groupId=core.TypedName
+        /]
+    [/#list]
+[/#macro]
+
+[#macro shared_diagram_config_overview occurrence ]
+    [@addComponentToOverview occurrence /]
 [/#macro]
 
 [#macro shared_diagram_config_resources occurrence ]

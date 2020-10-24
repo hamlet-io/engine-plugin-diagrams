@@ -42,7 +42,7 @@
             "relationships" : getOutputContent("relationships")?values,
             "groups" : (getOutputContent("groups")?values)?sort_by("groupID")
         } +
-        attributeIfContent("COTMessages", logMessages)
+        attributeIfContent("HamletMessages", logMessages)
     /]
     [@serialiseOutput name=JSON_DEFAULT_OUTPUT_TYPE /]
 [/#macro]
