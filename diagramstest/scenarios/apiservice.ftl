@@ -46,7 +46,7 @@
             {
                 "Type" : "Builds",
                 "Scope" : "Products",
-                "Namespace" : "mockedup-integration-digramstest-apigateway",
+                "Namespace" : "mockedup-integration-digramstest-apiservice",
                 "Settings" : {
                     "COMMIT" : "123456789#MockCommit#",
                     "FORMATS" : ["openapi"]
@@ -55,7 +55,7 @@
             {
                 "Type" : "Settings",
                 "Scope" : "Products",
-                "Namespace" : "mockedup-integration-digramstest-apigateway",
+                "Namespace" : "mockedup-integration-digramstest-apiservice",
                 "Settings" : {
                     "apigw": {
                         "Internal": true,
@@ -74,28 +74,28 @@
             "Tiers" : {
                 "api" : {
                     "Components" : {
-                        "apigateway" : {
+                        "apiservice-apigateway" : {
                             "apigateway" : {
                                 "Instances" : {
                                     "default" : {
-                                        "DeploymentUnits" : ["diagramstest-apigateway"]
+                                        "DeploymentUnits" : ["diagramstest-apiservice-apigateway"]
                                     }
                                 },
                                 "IPAddressGroups" : [ "_global" ],
                                 "Links" : {
                                     "Lambda" : {
                                         "Tier" : "api",
-                                        "Component" : "lambda",
+                                        "Component" : "apiservice-lambda",
                                         "Fucnction" : "api"
                                     }
                                 }
                             }
                         },
-                        "lambda" : {
+                        "apiservice-lambda" : {
                             "lambda" : {
                                 "Instances" : {
                                     "default" : {
-                                        "DeploymentUnits" : [ "diagramstest-lambda" ]
+                                        "DeploymentUnits" : [ "diagramstest-apiservice-lambda" ]
                                     }
                                 },
                                 "Functions" : {
@@ -105,12 +105,12 @@
                                         "Links" : {
                                             "apigw" : {
                                                 "Tier" : "api",
-                                                "Component" : "apigateway",
+                                                "Component" : "apiservice-apigateway",
                                                 "Direction" : "Inbound"
                                             },
                                             "database" : {
                                                 "Tier" : "db",
-                                                "Component" : "database"
+                                                "Component" : "apiservice-db"
                                             }
                                         }
                                     }
@@ -121,11 +121,11 @@
                 },
                 "db" : {
                     "Components" : {
-                        "database" : {
+                        "apiservice-db" : {
                             "db" : {
                                 "Instances" : {
                                     "default" : {
-                                        "DeploymentUnits" : [ "diagramstest-db" ]
+                                        "DeploymentUnits" : [ "diagramstest-apiservice-db" ]
                                     }
                                 },
                                 "Engine" : "postgres",
