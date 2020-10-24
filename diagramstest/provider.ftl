@@ -3,7 +3,8 @@
 [#assign DIAGRAMSTEST_PROVIDER = "diagramstest"]
 
 [#assign testScenarios = [
-    "apiservice"
+    "apiservice",
+    "webapp"
 ]]
 
 [@updateScenarioList

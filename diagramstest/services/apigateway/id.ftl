@@ -2,9 +2,14 @@
 
 [#assign DIAGRAMSTEST_APIGATEWAY_RESOURCE_TYPE = "apigateway" ]
 
-[@addDiagramResourceMapping
+[@addServiceResource
     provider=DIAGRAMSTEST_PROVIDER
-    service="*"
-    resourceType=DIAGRAMSTEST_APIGATEWAY_RESOURCE_TYPE
-    diagramsClass="diagrams.onprem.network.Nginx"
+    service=DIAGRAMSTEST_APIGATEWAY_SERVICE
+    resource=DIAGRAMSTEST_APIGATEWAY_RESOURCE_TYPE
+/]
+
+[@addDiagramServiceMapping
+    provider=DIAGRAMSTEST_PROVIDER
+    service=DIAGRAMSTEST_APIGATEWAY_SERVICE
+    diagramsClass="diagrams.onprem.network.Kong"
 /]
