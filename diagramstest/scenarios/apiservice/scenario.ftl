@@ -1,6 +1,13 @@
 [#ftl]
 
-[#macro diagramstest_scenario_apiservice ]
+[@addScenario
+    name="apiservice"
+    description="Testing scenario for diagrams based on an apiservice"
+    provider=DIAGRAMSTEST_PROVIDER
+    properties=[]
+/]
+
+[#macro diagramstest_scenario_apiservice parameters ]
 
     [#-- Base apigateway setup - No solution parameters --]
     [@addDefinition
@@ -28,7 +35,7 @@
         }
     /]
 
-    [@addScenario
+    [@loadScenario
         settingSets=[
             {
                 "Type" : "Settings",
