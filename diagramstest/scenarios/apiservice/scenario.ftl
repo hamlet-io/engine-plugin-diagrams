@@ -7,7 +7,7 @@
     properties=[]
 /]
 
-[#macro diagramstest_scenario_apiservice parameters ]
+[#macro diagramstest_scenario_apiservice ]
 
     [#-- Base apigateway setup - No solution parameters --]
     [@addDefinition

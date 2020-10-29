@@ -10,6 +10,10 @@
                         "apiservice" : {
                             "Provider" : "diagramstest",
                             "Name" : "apiservice"
+                        },
+                        "webapp" : {
+                            "Provider" : "diagramstest",
+                            "Name" : "webapp"
                         }
                     }
                 }
