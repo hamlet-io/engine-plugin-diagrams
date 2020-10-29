@@ -1,5 +1,13 @@
 [#ftl]
 
+[@addScenario
+    name="webapp"
+    description="Testing scenario for diagrams based on a webahpp"
+    provider=DIAGRAMSTEST_PROVIDER
+    properties=[]
+/]
+
+
 [#macro diagramstest_scenario_webapp ]
 
     [@addScenario
