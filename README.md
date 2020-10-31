@@ -27,7 +27,7 @@ Using this framework combined with the shared provider components flow we can ge
 
 ## Local testing
 
-A testing provider `diagramstest` is avaiable in this repository for isolated testing and for trying out the plugin. The testprovider adds a basic scenario to the the blueprint with a collection of components and their links. This is based on a standard serverless deployment with a database backend. Each component is also mocked with a state and basic resources
+A testing provider `diagramstest` is avaiable in this repository for isolated testing and for trying out the plugin. The testprovider adds a basic module to the the blueprint with a collection of components and their links. This is based on a standard serverless deployment with a database backend. Each component is also mocked with a state and basic resources
 
 To generate a standard diagram of the components and their relationships
 

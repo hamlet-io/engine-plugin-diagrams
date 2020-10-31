@@ -1,13 +1,13 @@
 [#ftl]
 
-[@addScenario
+[@addModule
     name="apiservice"
-    description="Testing scenario for diagrams based on an apiservice"
+    description="Testing module for diagrams based on an apiservice"
     provider=DIAGRAMSTEST_PROVIDER
     properties=[]
 /]
 
-[#macro diagramstest_scenario_apiservice ]
+[#macro diagramstest_module_apiservice ]
 
     [#-- Base apigateway setup - No solution parameters --]
     [@addDefinition
@@ -35,7 +35,7 @@
         }
     /]
 
-    [@loadScenario
+    [@loadModule
         settingSets=[
             {
                 "Type" : "Settings",
