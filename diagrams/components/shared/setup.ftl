@@ -107,11 +107,11 @@
     [/#list]
 [/#macro]
 
-[#macro shared_diagram_config_overview occurrence ]
+[#macro shared_diagram_config_component occurrence ]
     [@addComponentToOverview occurrence /]
 [/#macro]
 
-[#macro shared_diagram_config_resources occurrence ]
+[#macro shared_diagram_config_resource occurrence ]
 
     [#local solution = occurrence.Configuration.Solution ]
     [#local defaultDeploymentGroup = solution["deployment:Group"]!""]

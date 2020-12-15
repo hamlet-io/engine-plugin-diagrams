@@ -3,7 +3,7 @@
 [#-- output types --]
 [#assign DIAGRAMINFO_DEFAULT_OUTPUT_TYPE = "diagraminfo" ]
 
-[#macro exec_output_json level="" include=""]
+[#macro exec_output_json qaulifers="" include=""]
     [@initialiseJsonOutput name="details" /]
     [@initialiseJsonOutput name="entities" /]
     [@initialiseJsonOutput name="groups" /]
@@ -73,11 +73,11 @@
     /]
 [/#macro]
 
-[#macro diagramInfoDiagram type details ]
+[#macro diagramInfoDiagram scope details ]
     [@mergeWithJsonOutput
         name="diagrams"
         content={
-            type : details
+            scope : details
         }
     /]
 [/#macro]

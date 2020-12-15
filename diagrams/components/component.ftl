@@ -1,13 +1,11 @@
 [#ftl]
 
-[@addDiagramType
-    type="overview"
-    deploymentGroup="overview"
+[@addDiagramScope
+    scope="component"
     description="An overview of all components and their relationships with other components"
 /]
 
-[@addDiagramType
-    type="resources"
-    deploymentGroup="resources"
+[@addDiagramScope
+    scope="resource"
     description="Shows all resources that are used in a segment and the deployment group they are used in"
 /]

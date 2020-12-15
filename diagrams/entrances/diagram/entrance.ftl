@@ -9,15 +9,15 @@
 
   [#assign allDeploymentUnits = true]
 
-  [#local diagramType = commandLineOptions.Deployment.Group.Name]
-  [#local diagramTypeDetails = getDiagramType(diagramType)]
+  [#local diagramId = commandLineOptions.Diagrams.Id ]
+  [#local diagramDetails = getDiagram(diagramId)]
 
-  [#if ! diagramTypeDetails?has_content ]
+  [#if ! diagramDetails?has_content ]
     [@fatal
-      message="Invalid Diagram Type"
-      detail="Please provide an available diagram type using the deploymentGroup/level"
+      message="Diagram not found"
+      detail="Could not find a diagram which matched the provided id"
       context={
-        "DeploymentGroup" : commandLineOptions.Deployment.Group.Name
+        "diagram" : diagramId
       }
     /]
   [/#if]
@@ -54,7 +54,7 @@
       deploymentFramework=DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
       type=commandLineOptions.Deployment.Output.Type
       format=commandLineOptions.Deployment.Output.Format
-      level=diagramTypeDetails.DeploymentGroup!""
+      level=diagramDetails.Scope
   /]
 
 [/#macro]

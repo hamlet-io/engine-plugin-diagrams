@@ -3,33 +3,36 @@
 [#assign DIAGRAMS_PROVIDER = "diagrams"]
 [#assign DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK = "exec" ]
 
+[#function getDiagram id ]
+    [#local diagrams = getReferenceData(DIAGRAM_REFERENCE_TYPE) ]
+    [#return diagrams[id]!{} ]
+[/#function]
 
 [#-- Diagram Types Configuration --]
-[#assign diagramTypes = {}]
+[#assign diagramScopes = {}]
 
-[#macro addDiagramType type deploymentGroup description name="" ]
+[#macro addDiagramScope scope description name="" ]
     [#local configuration =
         {
             "Name" : contentIfContent(name, type),
-            "Type" : type,
-            "Description" : description,
-            "DeploymentGroup" : deploymentGroup
+            "Scope" : scope,
+            "Description" : description
         }
     ]
 
-    [@internalMergeDiagramTypesConfiguration
-        type=type
+    [@internalMergeDiagramScopesConfiguration
+        scope=scope
         configuration=configuration
     /]
 [/#macro]
 
 
-[#function getDiagramType type ]
-    [#return diagramTypes[type]!{} ]
+[#function getDiagramScope scope ]
+    [#return diagramScopes[scope]!{} ]
 [/#function]
 
-[#function getAllDiagramTypes ]
-    [#return diagramTypes ]
+[#function getAllDiagramScopes ]
+    [#return diagramScopes ]
 [/#function]
 
 [#-------------------------------------------------------
@@ -37,12 +40,12 @@
 ---------------------------------------------------------]
 
 [#-- Helper macro - not for general use --]
-[#macro internalMergeDiagramTypesConfiguration type configuration]
-    [#assign diagramTypes =
+[#macro internalMergeDiagramScopesConfiguration scope configuration]
+    [#assign diagramScopes =
         mergeObjects(
-            diagramTypes,
+            diagramScopes,
             {
-                type : configuration
+                scope : configuration
             }
         )]
 [/#macro]

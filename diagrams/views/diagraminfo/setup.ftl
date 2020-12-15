@@ -5,9 +5,9 @@
 [/#macro]
 
 [#macro diagrams_view_exec_diagraminfo ]
-    [#list getAllDiagramTypes() as type,details ]
+    [#list getAllDiagramScopes() as scope,details ]
         [@diagramInfoDiagram
-            type=type
+            scope=scope
             details=details
         /]
     [/#list]
