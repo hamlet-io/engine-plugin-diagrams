@@ -2,7 +2,7 @@
 
 
 
-# 0.0.0 (2021-01-11)
+# [8.0.0](https://github.com/hamlet-io/engine-plugin-aws/compare/66a22f1797d004ce27bc7e764a8d4e458cad3658...v8.0.0) (2021-01-11)
 
 
 ### Bug Fixes
@@ -19,9 +19,10 @@
 
 ### Features
 
+* **services:** support service and resource lookups ([6ff2d60](https://github.com/hamlet-io/engine-plugin-aws/commit/6ff2d6034fdc626d77c9cb32fcd288d44c4c767d))
+* changelog generation ([#11](https://github.com/hamlet-io/engine-plugin-aws/issues/11)) ([92344eb](https://github.com/hamlet-io/engine-plugin-aws/commit/92344eba163ee9996975cf00bb2dac546d0a0230))
 * diagram testing provider ([679f015](https://github.com/hamlet-io/engine-plugin-aws/commit/679f0158ac4ec0e0dfa062382c1147b31056b1d9))
 * initial commit ([66a22f1](https://github.com/hamlet-io/engine-plugin-aws/commit/66a22f1797d004ce27bc7e764a8d4e458cad3658))
-* **services:** support service and resource lookups ([6ff2d60](https://github.com/hamlet-io/engine-plugin-aws/commit/6ff2d6034fdc626d77c9cb32fcd288d44c4c767d))
 * ipaddr group support and components ([c5685a6](https://github.com/hamlet-io/engine-plugin-aws/commit/c5685a6c7df8fe4c782f5f2f733901b271302bdf))
 * level based diagram types ([db30e4d](https://github.com/hamlet-io/engine-plugin-aws/commit/db30e4d8c37484b41c84b62f1b1b6b1abd9ee6b4))
 * support relationships via links ([71c8d48](https://github.com/hamlet-io/engine-plugin-aws/commit/71c8d48fd20b4a1b8cff19dbece4111f2899d81d))
