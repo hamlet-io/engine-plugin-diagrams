@@ -4,18 +4,6 @@
 [#macro diagramstest_input_mock_blueprint_seed ]
     [@addBlueprint
         blueprint={
-            "Solution" : {
-                "Modules" : {
-                    "apiservice" : {
-                        "Provider" : "diagramstest",
-                        "Name" : "apiservice"
-                    },
-                    "webapp" : {
-                        "Provider" : "diagramstest",
-                        "Name" : "webapp"
-                    }
-                }
-            }
             "PlacementProfiles": {
                 "default": {
                     "default": {

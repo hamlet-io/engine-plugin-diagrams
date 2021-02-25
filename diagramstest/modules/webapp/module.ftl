@@ -10,7 +10,7 @@
 
 [#macro diagramstest_module_webapp ]
 
-    [@addModule
+    [@loadModule
         settingSets=[
             {
                 "Type" : "Settings",
