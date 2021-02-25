@@ -4,24 +4,27 @@
 [#assign TWOWAY_DIAGRAMS_RELATIONSHIP = "two way" ]
 
 [#macro addDiagramRelationshipsFromLinks occurrence links="" ]
-    [#list getLinkTargets(occurrence, links) as id, link ]
-        [#if link?is_hash]
+    [#if isOccurrenceInDiagram(occurrence) ]
+        [#list getLinkTargets(occurrence, links) as id, link ]
+            [#if link?is_hash]
+                [#if isOccurrenceInDiagram(link) ]
+                    [#if (link.Direction)?lower_case == "inbound" ]
+                        [#local startEntityId = link.Core.TypedId]
+                        [#local endEntityId = occurrence.Core.TypedId ]
+                    [#else]
+                        [#local startEntityId = occurrence.Core.TypedId]
+                        [#local endEntityId = link.Core.TypedId ]
+                    [/#if]
 
-            [#if (link.Direction)?lower_case == "inbound" ]
-                [#local startEntityId = link.Core.TypedId]
-                [#local endEntityId = occurrence.Core.TypedId ]
-            [#else]
-                [#local startEntityId = occurrence.Core.TypedId]
-                [#local endEntityId = link.Core.TypedId ]
+                    [@execDiagramRelationship
+                        startEntityId=startEntityId
+                        endEntityId=endEntityId
+                        direction=ONEWAY_DIAGRAMS_RELATIONSHIP
+                    /]
+                [/#if]
             [/#if]
-
-            [@execDiagramRelationship
-                startEntityId=startEntityId
-                endEntityId=endEntityId
-                direction=ONEWAY_DIAGRAMS_RELATIONSHIP
-            /]
-        [/#if]
-    [/#list]
+        [/#list]
+    [/#if]
 [/#macro]
 
 [#macro execDiagramRelationship startEntityId endEntityId direction ]

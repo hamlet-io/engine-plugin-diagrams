@@ -71,44 +71,46 @@
     [/#list]
 [/#macro]
 
-[#macro addComponentToOverview occurrence ]
-    [#local core = occurrence.Core]
-    [#local solution = occurrence.Configuration.Solution ]
-
-    [#local privateNetworkGroupName = "" ]
-    [#if (solution.Profiles.Network!"")?has_content ]
-        [#local occurrenceNetwork = getOccurrenceNetwork(occurrence) ]
-        [#local networkLink = occurrenceNetwork.Link!{} ]
-        [#local networkLinkTarget = getLinkTarget(occurrence, networkLink ) ]
-
-        [#local privateNetworkGroupName = networkLinkTarget.Core.Name ]
-        [@execDiagramGroup
-            id=privateNetworkGroupName
-        /]
-    [/#if]
-
-    [@execDiagramGroup
-        id=core.TypedName
-        parentId=privateNetworkGroupName
-    /]
-
-    [#local allOccurrences = asFlattenedArray( [ occurrence, occurrence.Occurrences![] ], true )]
-    [#list allOccurrences as occurrence ]
+[#macro addComponentToSolutionDiagram occurrence ]
+    [#if isOccurrenceInDiagram(occurrence)]
+        [#local core = occurrence.Core]
         [#local solution = occurrence.Configuration.Solution ]
 
-        [@addDiagramRelationshipsFromLinks
-            occurrence=occurrence
+        [#local privateNetworkGroupName = "" ]
+        [#if (solution.Profiles.Network!"")?has_content ]
+            [#local occurrenceNetwork = getOccurrenceNetwork(occurrence) ]
+            [#local networkLink = occurrenceNetwork.Link!{} ]
+            [#local networkLinkTarget = getLinkTarget(occurrence, networkLink ) ]
+
+            [#local privateNetworkGroupName = networkLinkTarget.Core.Name ]
+            [@execDiagramGroup
+                id=privateNetworkGroupName
+            /]
+        [/#if]
+
+        [@execDiagramGroup
+            id=core.TypedName
+            parentId=privateNetworkGroupName
         /]
 
-        [@addDiagramEntityForOccurrence
-            occurrence=occurrence
-            groupId=core.TypedName
-        /]
-    [/#list]
+        [#local allOccurrences = asFlattenedArray( [ occurrence, occurrence.Occurrences![] ], true )]
+        [#list allOccurrences as occurrence ]
+            [#local solution = occurrence.Configuration.Solution ]
+
+            [@addDiagramRelationshipsFromLinks
+                occurrence=occurrence
+            /]
+
+            [@addDiagramEntityForOccurrence
+                occurrence=occurrence
+                groupId=core.TypedName
+            /]
+        [/#list]
+    [/#if]
 [/#macro]
 
-[#macro shared_diagram_config_overview occurrence ]
-    [@addComponentToOverview occurrence /]
+[#macro shared_diagram_config_solution occurrence ]
+    [@addComponentToSolutionDiagram occurrence /]
 [/#macro]
 
 [#macro shared_diagram_config_resources occurrence ]
@@ -126,16 +128,18 @@
 
         [#local deploymentGroup = solution["deployment:Group"]!defaultDeploymentGroup ]
 
-        [@execDiagramGroup
-            id=deploymentGroup
-            parentId=""
-        /]
+        [#if isOccurrenceInDiagram(occurrence) && deploymentGroup?has_content && resources?has_content ]
+            [@execDiagramGroup
+                id=deploymentGroup
+                parentId=""
+            /]
 
-        [@addDiagramEntitiesFromResources
-            resources=resources!{}
-            groupId=deploymentGroup
-            provider=provider
-        /]
-
+            [@addDiagramEntitiesFromResources
+                occurrence=occurrence
+                resources=resources!{}
+                groupId=deploymentGroup
+                provider=provider
+            /]
+        [/#if]
     [/#list]
 [/#macro]
