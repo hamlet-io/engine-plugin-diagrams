@@ -43,6 +43,12 @@
                     "Mandatory" : true
                 },
                 {
+                    "Names" : "Priority",
+                    "Description" : "The order the rule will be applied - Lowest first",
+                    "Types" : NUMBER_TYPE,
+                    "Default" : 100
+                },
+                {
                     "Names" : "Policy",
                     "Types" : STRING_TYPE,
                     "Values" : [ "Links", "ComponentType", "ResourceType" ],
