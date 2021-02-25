@@ -9,7 +9,20 @@
 
   [#assign allDeploymentUnits = true]
 
-  [#local diagramType = commandLineOptions.Deployment.Group.Name]
+  [#local diagram = getActiveDiagram()]
+
+  [#if ! diagram?has_content]
+    [@fatal
+      message="Diagram could not be found"
+      detail="The diagram requested could not be found"
+      context={
+        "RequestedDiagram" : diagramId,
+        "DiagramsAvailable" : diagrams?keys
+      }
+    /]
+  [/#if]
+
+  [#local diagramType = (diagram.Type)!""]
   [#local diagramTypeDetails = getDiagramType(diagramType)]
 
   [#if ! diagramTypeDetails?has_content ]
@@ -17,7 +30,8 @@
       message="Invalid Diagram Type"
       detail="Please provide an available diagram type using the deploymentGroup/level"
       context={
-        "DeploymentGroup" : commandLineOptions.Deployment.Group.Name
+        "ConfiguredType" : diagramType,
+        "TypesAvailable" : getAllDiagramTypes()
       }
     /]
   [/#if]
@@ -26,9 +40,6 @@
   [@addCommandLineOption
       option={
         "Deployment" : {
-          "Unit" : {
-            "Name" : ""
-          },
           "Group" : {
               "Name" : "*"
           },
@@ -46,7 +57,11 @@
 
   [@includeServicesConfiguration
     provider=DIAGRAMS_PROVIDER
-    services=[ DIAGRAMS_ENTITY_SERVICE, DIAGRAMS_GROUP_SERVICE, DIAGRAMS_RELATIONSHIP_SERVICE ]
+    services=[
+      DIAGRAMS_ENTITY_SERVICE,
+      DIAGRAMS_GROUP_SERVICE,
+      DIAGRAMS_RELATIONSHIP_SERVICE
+    ]
     deploymentFramework=DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
   /]
 
@@ -54,7 +69,7 @@
       deploymentFramework=DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
       type=commandLineOptions.Deployment.Output.Type
       format=commandLineOptions.Deployment.Output.Format
-      level=diagramTypeDetails.DeploymentGroup!""
+      level=diagramTypeDetails.Type!""
   /]
 
 [/#macro]

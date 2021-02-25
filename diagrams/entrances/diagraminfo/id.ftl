@@ -6,7 +6,7 @@
         [
             {
                 "Type"  : "Description",
-                "Value" : "Provides a list of the available diagrams"
+                "Value" : "Provides diagram plugin specific information"
             }
         ]
     commandlineoptions=[

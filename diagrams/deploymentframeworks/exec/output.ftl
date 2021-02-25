@@ -20,12 +20,11 @@
         /]
     [/#if]
 
-    [#local diagramTypeDetails = getDiagramType(level)]
-
-    [@debug message="DiagramDetails" context=diagramTypeDetails enabled=true /]
+    [#local diagram = getActiveDiagram()]
+    [#local diagramName = (diagram.Title!diagram.Name!diagram.Id)!""]
 
     [@execDiagramName
-        name=formatSegmentFullName(diagramTypeDetails.Name)
+        name=diagramName + " - " + formatSegmentFullName()
     /]
 
     [@toJSON
@@ -67,21 +66,30 @@
                 "RequestReference" : commandLineOptions.References.Request,
                 "ConfigurationReference" : commandLineOptions.References.Configuration
             },
+            "DiagramTypes" : getOutputContent("diagramtypes")?values,
             "Diagrams" : getOutputContent("diagrams")?values
         } +
         attributeIfContent("COTMessages", logMessages)
     /]
 [/#macro]
 
-[#macro diagramInfoDiagram type details ]
+[#macro diagramTypeInfoDiagram type details ]
     [@mergeWithJsonOutput
-        name="diagrams"
+        name="diagramtypes"
         content={
             type : details
         }
     /]
 [/#macro]
 
+[#macro diagramInfoDiagram id details ]
+    [@mergeWithJsonOutput
+        name="diagrams"
+        content={
+            id : { "Id" : id } + details
+        }
+    /]
+[/#macro]
 
 [@addGenerationContractStepOutputMapping
     provider=DIAGRAMS_PROVIDER

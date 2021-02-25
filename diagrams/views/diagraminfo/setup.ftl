@@ -6,8 +6,15 @@
 
 [#macro diagrams_view_exec_diagraminfo ]
     [#list getAllDiagramTypes() as type,details ]
-        [@diagramInfoDiagram
+        [@diagramTypeInfoDiagram
             type=type
+            details=details
+        /]
+    [/#list]
+
+    [#list getReferenceData(DIAGRAM_REFERENCE_TYPE) as id, details ]
+        [@diagramInfoDiagram
+            id=id
             details=details
         /]
     [/#list]
