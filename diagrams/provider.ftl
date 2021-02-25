@@ -7,13 +7,11 @@
 [#-- Diagram Types Configuration --]
 [#assign diagramTypes = {}]
 
-[#macro addDiagramType type deploymentGroup description name="" ]
+[#macro addDiagramType type description ]
     [#local configuration =
         {
-            "Name" : contentIfContent(name, type),
             "Type" : type,
-            "Description" : description,
-            "DeploymentGroup" : deploymentGroup
+            "Description" : description
         }
     ]
 
