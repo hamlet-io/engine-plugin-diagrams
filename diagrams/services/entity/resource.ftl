@@ -21,34 +21,37 @@
     [#return resourceTypes ]
 [/#function]
 
-[#macro addDiagramEntitiesFromResources resources groupId provider ]
-    [#local resourceTypes = getResourceTypes(resources)]
+[#macro addDiagramEntitiesFromResources occurrence resources groupId provider ]
+    [#if isOccurrenceInDiagram(occurrence)]
+        [#local resourceTypes = getResourceTypes(resources)]
 
-    [#list resourceTypes as id, type ]
-        [@execDiagramEntity
-            id=formatId(groupId, type)
-            name=type
-            groupId=groupId
-            resourceProvider=provider
-            resourceType=type
-        /]
-    [/#list ]
+        [#list resourceTypes as id, type ]
+            [@execDiagramEntity
+                id=formatId(groupId, type)
+                name=type
+                groupId=groupId
+                resourceProvider=provider
+                resourceType=type
+            /]
+        [/#list]
+    [/#if]
 [/#macro]
 
-
 [#macro addDiagramEntityForOccurrence occurrence groupId ]
-    [#local resourceTypes = getResourceTypes(occurrence.State.Resources)]
+    [#if isOccurrenceInDiagram(occurrence) ]
+        [#local resourceTypes = getResourceTypes(occurrence.State.Resources)]
 
-    [#local placement = (occurrence.State.ResourceGroups["default"].Placement)!{} ]
-    [#local provider = placement.Provider ]
+        [#local placement = (occurrence.State.ResourceGroups["default"].Placement)!{} ]
+        [#local provider = placement.Provider ]
 
-    [@execDiagramEntity
-        id=occurrence.Core.TypedId
-        name=occurrence.Core.Component.RawName
-        groupId=groupId
-        resourceProvider=provider
-        resourceType=(resourceTypes?values[0])!occurrence.Core.Component.Type
-    /]
+        [@execDiagramEntity
+            id=occurrence.Core.TypedId
+            name=occurrence.Core.Component.RawName
+            groupId=groupId
+            resourceProvider=provider
+            resourceType=(resourceTypes?values[0])!occurrence.Core.Component.Type
+        /]
+    [/#if]
 [/#macro]
 
 [#macro execDiagramEntity id name groupId resourceProvider service="" resourceType="" ]
@@ -66,3 +69,40 @@
         }
     /]
 [/#macro]
+
+
+[#function isOccurrenceInDiagram occurrence ]
+    [#local diagram = getActiveDiagram()]
+
+    [#local match = false]
+    [#list (diagram.Rules)!{} as id, rule ]
+        [#switch rule.Policy ]
+            [#case "Links" ]
+                [#list getLinkTargets(occurrence, rule["policy:Links"]["Links"], false)?values as linkTarget ]
+                    [#if linkTarget.Core.TypedFullName == occurrence.Core.TypedFullName ]
+                        [#local match = true && rule.Action == "Include" ]
+                    [/#if]
+                [/#list]
+                [#break]
+
+            [#case "ComponentType"]
+                [#list rule["policy:ComponentType"]["Types"] as type ]
+                    [#if occurrence.Core.Type == type || type == "*" ]
+                        [#local match = true && rule.Action == "Include" ]
+                    [/#if]
+                [/#list]
+                [#break]
+
+            [#case "ResourceType"]
+                [#list rule["policy:ResourceType"]["Types"] as type ]
+                    [#if (getResourceTypes(occurrence.State.Resources)?values)?seq_contains(type) || type == "*" ]
+                        [#local match = true && rule.Action == "Include" ]
+                    [/#if]
+                [/#list]
+                [#break]
+
+        [/#switch]
+    [/#list]
+
+    [#return match ]
+[/#function]

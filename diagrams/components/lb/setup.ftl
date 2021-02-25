@@ -1,7 +1,7 @@
 [#ftl]
 
-[#macro shared_lb_exec_diagram_config_overview occurrence ]
-    [@addComponentToOverview occurrence /]
+[#macro shared_lb_exec_diagram_config_solution occurrence ]
+    [@addComponentToSolutionDiagram occurrence /]
 
     [#list occurrence.Occurrences as subOccurrence ]
         [#local solution = subOccurrence.Configuration.Solution ]

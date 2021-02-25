@@ -1,7 +1,7 @@
 [#ftl]
 
-[#macro shared_ecs_exec_diagram_config_overview occurrence ]
-    [@addComponentToOverview occurrence /]
+[#macro shared_ecs_exec_diagram_config_solution occurrence ]
+    [@addComponentToSolutionDiagram occurrence /]
 
     [#list occurrence.Occurrences as subOccurrence ]
 
