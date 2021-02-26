@@ -137,6 +137,68 @@
                         }
                     }
                 }
+            },
+            "Diagrams": {
+                "webapp" : {
+                    "Type" : "solution",
+                    "Title" : "Web App and dependencies",
+                    "Description" : "Our Web App and its dependencies",
+                    "Rules" : {
+                        "apiLinks" : {
+                            "Action" : "Include",
+                            "Policy" : "Links",
+                            "policy:Links" : {
+                                "Links" : {
+                                    "webapp_lb" : {
+                                        "Tier" : "elb",
+                                        "Component" : "webapp-lb",
+                                        "Instance" : "",
+                                        "Version" : ""
+                                    },
+                                    "webapp_lb_http" : {
+                                        "Tier" : "elb",
+                                        "Component" : "webapp-lb",
+                                        "PortMapping" : "http",
+                                        "Instance" : "",
+                                        "Version" : ""
+                                    },
+                                    "webapp_lb_https" : {
+                                        "Tier" : "elb",
+                                        "Component" : "webapp-lb",
+                                        "PortMapping" : "https",
+                                        "Instance" : "",
+                                        "Version" : ""
+                                    },
+                                    "apphost" : {
+                                        "Tier" : "app",
+                                        "Component" : "apphost",
+                                        "Instance" : "",
+                                        "Version" : ""
+                                    },
+                                    "apphost_webapp" : {
+                                        "Tier" : "app",
+                                        "Component" : "apphost",
+                                        "Service" : "webapp",
+                                        "Instance" : "",
+                                        "Version" : ""
+                                    },
+                                    "apidb" : {
+                                        "Tier" : "db",
+                                        "Component" : "apiservice-db",
+                                        "Instance": "",
+                                        "Version" : ""
+                                    },
+                                    "webapp_db" : {
+                                        "Tier" : "db",
+                                        "Component" : "webapp-db",
+                                        "Instance" : "",
+                                        "Version" : ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     /]

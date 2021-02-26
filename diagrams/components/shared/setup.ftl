@@ -72,29 +72,15 @@
 [/#macro]
 
 [#macro addComponentToSolutionDiagram occurrence ]
-    [#if isOccurrenceInDiagram(occurrence)]
-        [#local core = occurrence.Core]
-        [#local solution = occurrence.Configuration.Solution ]
+    [#local core = occurrence.Core ]
 
-        [#local privateNetworkGroupName = "" ]
-        [#if (solution.Profiles.Network!"")?has_content ]
-            [#local occurrenceNetwork = getOccurrenceNetwork(occurrence) ]
-            [#local networkLink = occurrenceNetwork.Link!{} ]
-            [#local networkLinkTarget = getLinkTarget(occurrence, networkLink ) ]
+    [#local includeGroup = false ]
 
-            [#local privateNetworkGroupName = networkLinkTarget.Core.Name ]
-            [@execDiagramGroup
-                id=privateNetworkGroupName
-            /]
-        [/#if]
+    [#local allOccurrences = asFlattenedArray( [ occurrence, occurrence.Occurrences![] ], true )]
+    [#list allOccurrences as occurrence ]
+        [#if isOccurrenceInDiagram(occurrence) ]
+            [#local includeGroup = true ]
 
-        [@execDiagramGroup
-            id=core.TypedName
-            parentId=privateNetworkGroupName
-        /]
-
-        [#local allOccurrences = asFlattenedArray( [ occurrence, occurrence.Occurrences![] ], true )]
-        [#list allOccurrences as occurrence ]
             [#local solution = occurrence.Configuration.Solution ]
 
             [@addDiagramRelationshipsFromLinks
@@ -105,7 +91,13 @@
                 occurrence=occurrence
                 groupId=core.TypedName
             /]
-        [/#list]
+        [/#if]
+    [/#list]
+
+    [#if includeGroup ]
+        [@execDiagramGroup
+            id=core.TypedName
+        /]
     [/#if]
 [/#macro]
 

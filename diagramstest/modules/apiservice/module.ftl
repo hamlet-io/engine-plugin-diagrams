@@ -93,7 +93,7 @@
                                     "Lambda" : {
                                         "Tier" : "api",
                                         "Component" : "apiservice-lambda",
-                                        "Fucnction" : "api"
+                                        "Function" : "api"
                                     }
                                 }
                             }
@@ -138,6 +138,42 @@
                                 "Engine" : "postgres",
                                 "EngineVersion" : "10",
                                 "Size" : 20
+                            }
+                        }
+                    }
+                }
+            },
+            "Diagrams": {
+                "apiservice" : {
+                    "Type" : "solution",
+                    "Title" : "API Endpoint and Services",
+                    "Description" : "Our API Endpoint and its dependencies",
+                    "Rules" : {
+                        "apiLinks" : {
+                            "Action" : "Include",
+                            "Policy" : "Links",
+                            "policy:Links" : {
+                                "Links" : {
+                                    "apigw" : {
+                                        "Tier" : "api",
+                                        "Component" : "apiservice-apigateway",
+                                        "Instance" : "",
+                                        "Version" : ""
+                                    },
+                                    "apilambda" : {
+                                        "Tier" : "api",
+                                        "Component" : "apiservice-lambda",
+                                        "Function" : "api",
+                                        "Instance" : "",
+                                        "Version" : ""
+                                    },
+                                    "apidb" : {
+                                        "Tier" : "db",
+                                        "Component" : "apiservice-db",
+                                        "Instance": "",
+                                        "Version" : ""
+                                    }
+                                }
                             }
                         }
                     }
