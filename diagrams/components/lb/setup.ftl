@@ -4,14 +4,17 @@
     [@addComponentToSolutionDiagram occurrence /]
 
     [#list occurrence.Occurrences as subOccurrence ]
-        [#local solution = subOccurrence.Configuration.Solution ]
-        [#if (solution.IPAddressGroups![])?has_content ]
-            [@setupIPAddressGroupsRelationhsips
-                entityId=subOccurrence.Core.TypedId
-                IPAddressGroups=solution.IPAddressGroups
-                includeLocal=false
-                inbound=true
-            /]
+        [#if isOccurrenceInDiagram(subOccurrence)]
+            [#local solution = subOccurrence.Configuration.Solution ]
+            [#if (solution.IPAddressGroups![])?has_content ]
+                [@setupIPAddressGroupsRelationhsips
+                    entityId=subOccurrence.Core.TypedId
+                    IPAddressGroups=solution.IPAddressGroups
+                    includeLocal=false
+                    inbound=true
+                /]
+            [/#if]
         [/#if]
     [/#list]
+
 [/#macro]
