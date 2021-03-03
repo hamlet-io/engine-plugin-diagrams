@@ -5,7 +5,7 @@
 [/#macro]
 
 
-[#macro setupIPAddressGroupsRelationhsips entityId IPAddressGroups inbound=true includeLocal=false]
+[#macro setupIPAddressGroupsRelationships entityId IPAddressGroups inbound=true includeLocal=false]
     [#local diagramGroups = [] ]
 
     [#local networkGroupId = "External-Networks"]
