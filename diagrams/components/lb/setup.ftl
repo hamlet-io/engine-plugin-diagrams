@@ -7,7 +7,7 @@
         [#if isOccurrenceInDiagram(subOccurrence)]
             [#local solution = subOccurrence.Configuration.Solution ]
             [#if (solution.IPAddressGroups![])?has_content ]
-                [@setupIPAddressGroupsRelationhsips
+                [@setupIPAddressGroupsRelationships
                     entityId=subOccurrence.Core.TypedId
                     IPAddressGroups=solution.IPAddressGroups
                     includeLocal=false
