@@ -34,7 +34,7 @@
         },
         {
             "Names" : "Rules",
-            "Subobjects" : true,
+            "SubObjects" : true,
             "Children" : [
                 {
                     "Names" : "Action",
