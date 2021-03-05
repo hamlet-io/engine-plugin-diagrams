@@ -1,15 +1,13 @@
-# Hamlet Engine Plugin - Diagrams
+# Hamlet Deploy Engine Plugin - Diagrams
 
-This is a plugin for the Hamlet engine which can be used to generate diagram representations of your deployments
-
-It provides two providers
+This is a plugin for Hamlet Deploy which enables the generation of diagrams of your deployments
 
 - **diagrams** - which implements the actual processing to generate the diagram outputs
 - **diagramstest** - which implmentes mock components and resources to support isolated development from other providers
 
-## Implementation
+## Description
 
-The key functionality in this provider is a new deployment framework called the `exec` format. This framework generates a document conformant with the document specifications for the [hamlet diagrams executor](https://github.com/hamlet-io/executor-diagrams/).
+The key functionality in this provider is a new deployment framework called the `exec` format. This framework generates a document conformant with the document specifications for the [Hamlet Deploy diagrams executor](https://github.com/hamlet-io/executor-diagrams/).
 
 Using this framework combined with the shared provider components flow we can generate exec files based on the component configuration. The default diagram generates all components, subcomponents and then defines relationships between the entities based on their Links. No knowledge of particular components is required, we are just relying on standard hamlet component design.
 
@@ -18,11 +16,29 @@ Using this framework combined with the shared provider components flow we can ge
 
 This plugin is installed by default into the official Hamlet docker container. Type `hamlet visual --help` inside the container to get started.
 
-If you are installing Hamlet yourself, simple clone this directory into the *hamlet/engine/plugins/* directory, and add this new path to the `GENERATION_PLUGIN_DIRS` environment variable: `export GENERATION_PLUGINS_DIR="$(pwd);${GENERATION_PLUGIN_DIR}`
+If you are installing Hamlet yourself, simply clone this directory into the *hamlet/engine/plugins/* directory.
+
+```bash
+cd path/to/hamlet/engine/plugins
+git clone https://github.com/hamlet-io/engine-plugin-diagrams.git
+```
+
+## Configuration
+
+To configure Hamlet Deploy for use with this Plugin, update the `GENERATION_PLUGIN_DIRS` environment variable with the fully qualified filepath to the plugin.
+
+```bash
+cd ./<repository-root>
+export GENERATION_PLUGINS_DIRS="${GENERATION_PLUGIN_DIRS};$(pwd)"
+```
+
+Make sure to do this for each Plugin (`diagrams` and `diagramstest`).
 
 ## Local testing
 
-A testing provider `diagramstest` is available in this repository for isolated testing and for trying out the plugin. The testprovider adds a basic module to the the blueprint with a collection of components and their links. This is based on a standard serverless deployment with a database backend. Each component is also mocked with a state and basic resources
+The Plugin `diagramstest` is available in this repository for isolated testing of the `diagrams` Plugin.
+
+The testprovider adds a basic module to the the blueprint with a collection of components and their links. This is based on a standard serverless deployment with a database backend. Each component is also mocked with a state and basic resources
 
 To generate a standard diagram of the components and their relationships
 
@@ -32,4 +48,4 @@ hamlet visual -p diagramstest -p diagrams -i mock draw-diagrams -o ./
 
 The output will be in the local directory.
 
-Note: the diagramstest should be loaded as the first, primary provider to allow for the resource and component mocking to work
+**Note:** the `diagramstest` Plugin should be loaded as the first, primary provider to allow for the resource and component mocking to work.
