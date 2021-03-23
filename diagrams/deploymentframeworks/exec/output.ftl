@@ -3,11 +3,13 @@
 [#-- output types --]
 [#assign DIAGRAMINFO_DEFAULT_OUTPUT_TYPE = "diagraminfo" ]
 
-[#macro exec_output_json level="" include=""]
+[#function exec_output_json level="" include=""]
     [@initialiseJsonOutput name="details" /]
     [@initialiseJsonOutput name="entities" /]
     [@initialiseJsonOutput name="groups" /]
     [@initialiseJsonOutput name="relationships" /]
+
+    [@setOutputFileProperties format="json" /]
 
     [#-- Resources --]
     [#if include?has_content]
@@ -27,7 +29,7 @@
         name=diagramName + " - " + formatSegmentFullName()
     /]
 
-    [@toJSON
+    [#return
         {
             "Metadata" : {
                 "Id" : getOutputContent("details", "Name"),
@@ -40,16 +42,15 @@
             "entities" : (getOutputContent("entities")?values)?sort_by("entityID"),
             "relationships" : getOutputContent("relationships")?values,
             "groups" : (getOutputContent("groups")?values)?sort_by("groupID")
-        } +
-        attributeIfContent("HamletMessages", logMessages)
-    /]
-    [@serialiseOutput name=JSON_DEFAULT_OUTPUT_TYPE /]
-[/#macro]
+        }
+    ]
+[/#function]
 
 
 [#-- Diagraminfo --]
-[#macro exec_output_diagraminfo level="" include="" ]
+[#function exec_output_diagraminfo level="" include="" ]
     [@initialiseJsonOutput name="diagrams" /]
+    [@setOutputFileProperties format="json" /]
 
     [@processFlows
         level=level
@@ -57,7 +58,7 @@
         flows=commandLineOptions.Flow.Names
     /]
 
-    [@toJSON
+    [#return
         {
             "Metadata" : {
                 "Id" : "hamlet-info",
@@ -68,10 +69,9 @@
             },
             "DiagramTypes" : getOutputContent("diagramtypes")?values,
             "Diagrams" : getOutputContent("diagrams")?values
-        } +
-        attributeIfContent("COTMessages", logMessages)
-    /]
-[/#macro]
+        }
+    ]
+[/#function]
 
 [#macro diagramTypeInfoDiagram type details ]
     [@mergeWithJsonOutput
