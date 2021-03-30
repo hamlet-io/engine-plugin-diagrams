@@ -1,4 +1,31 @@
-# [0.0.0](https://github.com/hamlet-io/engine-plugin-aws/compare/v8.0.0...v0.0.0) (2021-01-11)
+# [0.0.0](https://github.com/hamlet-io/engine-plugin-aws/compare/v8.0.1...v0.0.0) (2021-03-30)
+
+
+
+## [8.0.1](https://github.com/hamlet-io/engine-plugin-aws/compare/v8.0.0...v8.0.1) (2021-03-05)
+
+
+* feat!: user defined diagrams ([59229f0](https://github.com/hamlet-io/engine-plugin-aws/commit/59229f026b06e31993db1b0857b82545b6391346))
+
+
+### Bug Fixes
+
+* minor fixes and tests ([786e6f4](https://github.com/hamlet-io/engine-plugin-aws/commit/786e6f49a32d113b3fb5368beeef657cc3aee67f))
+* typo in macro name ([ff7a150](https://github.com/hamlet-io/engine-plugin-aws/commit/ff7a150d696661d7f4ebe1ebe18bba6c37e102e2))
+
+
+### Features
+
+* add basic diagrams as modules ([437e9dc](https://github.com/hamlet-io/engine-plugin-aws/commit/437e9dcee2d67aa18261b2579fea906f37d2ad0b))
+* add testing support for diagram modules ([e7135b9](https://github.com/hamlet-io/engine-plugin-aws/commit/e7135b916b0e8060f95334092ea68bc7dfc9e931))
+* rule sorting using priority ([46e9409](https://github.com/hamlet-io/engine-plugin-aws/commit/46e9409d217ad8ee5d743002476548db22e39f7c))
+* support diagram rule filtering ([f20b0fe](https://github.com/hamlet-io/engine-plugin-aws/commit/f20b0fe4ec2164f3fe80ab16eb08de17c53f82ee))
+
+
+### BREAKING CHANGES
+
+* The existing diagrams are now considiered
+types and users need to define their own diagrams
 
 
 
