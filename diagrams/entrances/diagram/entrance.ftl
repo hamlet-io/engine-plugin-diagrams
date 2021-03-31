@@ -2,11 +2,9 @@
 
 [#macro diagrams_entrance_diagram ]
 
-
-  [#if (commandLineOptions.Deployment.Unit.Subset!"") == "generationcontract" ]
+  [#if getCLODeploymentUnitSubset() == "generationcontract" ]
     [#assign allDeploymentUnits = false]
   [/#if]
-
   [#assign allDeploymentUnits = true]
 
   [#local diagram = getActiveDiagram()]
@@ -16,8 +14,7 @@
       message="Diagram could not be found"
       detail="The diagram requested could not be found"
       context={
-        "RequestedDiagram" : diagramId,
-        "DiagramsAvailable" : diagrams?keys
+        "RequestedDiagram" : (diagram.Title!diagram.Name!diagram.Id)!""
       }
     /]
   [/#if]
@@ -25,32 +22,6 @@
   [#local diagramType = (diagram.Type)!""]
   [#local diagramTypeDetails = getDiagramType(diagramType)]
 
-  [#if ! diagramTypeDetails?has_content ]
-    [@fatal
-      message="Invalid Diagram Type"
-      detail="Please provide an available diagram type using the deploymentGroup/level"
-      context={
-        "ConfiguredType" : diagramType,
-        "TypesAvailable" : getAllDiagramTypes()
-      }
-    /]
-  [/#if]
-
-  [#-- override the deployment group to get all deployment groups --]
-  [@addCommandLineOption
-      option={
-        "Deployment" : {
-          "Group" : {
-              "Name" : "*"
-          },
-          "Framework" : {
-              "Name" : DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
-          }
-        }
-      }
-  /]
-
-  [#-- Preload the configuration as it won't be avaiable via the other providers --]
   [@includeAllComponentConfiguration
     DIAGRAMS_PROVIDER
   /]
@@ -67,9 +38,49 @@
 
   [@generateOutput
       deploymentFramework=DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
-      type=commandLineOptions.Deployment.Output.Type
-      format=commandLineOptions.Deployment.Output.Format
+      type=getCLODeploymentOutputType()
+      format=getCLODeploymentOutputFormat()
       level=diagramTypeDetails.Type!""
   /]
 
 [/#macro]
+
+[#macro diagrams_entrance_diagram_inputsteps]
+
+  [@registerInputSeeder
+    id=DIAGRAM_ENTRANCE_TYPE
+    description="Entrance"
+  /]
+
+  [@addSeederToConfigPipeline
+    stage=COMMANDLINEOPTIONS_SHARED_INPUT_STAGE
+    seeder=DIAGRAM_ENTRANCE_TYPE
+  /]
+
+[/#macro]
+
+[#function diagram_configseeder_commandlineoptions filter state ]
+  [#return
+    mergeObjects(
+      state,
+      {
+        "CommandLineOptions" : {
+          "Deployment" : {
+            "Group" : {
+                "Name" : "*"
+            },
+            "Framework" : {
+                "Name" : DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
+            },
+            "Provider" : {
+              "Names" : combineEntities(
+                        [ "diagrams" ],
+                        state.CommandLineOptions.Deployment.Provider.Names![],
+                        UNIQUE_COMBINE_BEHAVIOUR
+                      )
+            }
+          }
+        }
+      }
+    )]
+[/#function]

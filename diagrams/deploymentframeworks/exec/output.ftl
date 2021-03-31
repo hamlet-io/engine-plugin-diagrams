@@ -15,11 +15,11 @@
     [#if include?has_content]
         [#include include?ensure_starts_with("/")]
     [#else]
-        [@processFlows
-            level=level
-            framework=DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
-            flows=commandLineOptions.Flow.Names
-        /]
+    [@processFlows
+        level=level
+        framework=DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
+        flows=getCLOFlows()
+    /]
     [/#if]
 
     [#local diagram = getActiveDiagram()]
@@ -34,9 +34,9 @@
             "Metadata" : {
                 "Id" : getOutputContent("details", "Name"),
                 "Prepared" : .now?iso_utc,
-                "RunId" : commandLineOptions.Run.Id,
-                "RequestReference" : commandLineOptions.References.Request,
-                "ConfigurationReference" : commandLineOptions.References.Configuration
+                "RunId" : getCLORunId(),
+                "RequestReference" : getCLORequestReference(),
+                "ConfigurationReference" : getCLOConfigurationReference()
             },
             "diagramName" : getOutputContent("details", "Name"),
             "entities" : (getOutputContent("entities")?values)?sort_by("entityID"),
@@ -49,13 +49,14 @@
 
 [#-- Diagraminfo --]
 [#function exec_output_diagraminfo level="" include="" ]
-    [@initialiseJsonOutput name="diagrams" /]
     [@setOutputFileProperties format="json" /]
+
+    [@initialiseJsonOutput name="diagrams" /]
 
     [@processFlows
         level=level
         framework=DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
-        flows=commandLineOptions.Flow.Names
+        flows=getCLOFlows()
     /]
 
     [#return
@@ -63,9 +64,9 @@
             "Metadata" : {
                 "Id" : "hamlet-info",
                 "Prepared" : .now?iso_utc,
-                "RunId" : commandLineOptions.Run.Id,
-                "RequestReference" : commandLineOptions.References.Request,
-                "ConfigurationReference" : commandLineOptions.References.Configuration
+                "RunId" : getCLORunId(),
+                "RequestReference" : getCLORequestReference(),
+                "ConfigurationReference" : getCLOConfigurationReference()
             },
             "DiagramTypes" : getOutputContent("diagramtypes")?values,
             "Diagrams" : getOutputContent("diagrams")?values
