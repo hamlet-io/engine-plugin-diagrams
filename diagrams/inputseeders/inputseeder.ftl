@@ -1,0 +1,3 @@
+[#ftl]
+
+[#assign DIAGRAMS_INPUT_SEEDER = DIAGRAMS_PROVIDER ]
