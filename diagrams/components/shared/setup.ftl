@@ -116,7 +116,7 @@
         [#local solution = occurrence.Configuration.Solution]
 
         [#local placement = (occurrence.State.ResourceGroups["default"].Placement)!{} ]
-        [#local provider = placement.Provider!getCLODeploymentProviders()?first ]
+        [#local provider = placement.Provider!getLoaderProviders()?first ]
 
         [#local deploymentGroup = solution["deployment:Group"]!defaultDeploymentGroup ]
 
