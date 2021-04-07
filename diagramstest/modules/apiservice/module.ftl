@@ -10,8 +10,8 @@
 [#macro diagramstest_module_apiservice ]
 
     [#-- Base apigateway setup - No solution parameters --]
-    [@addDefinition
-        definition={
+    [@loadModule
+        definitions={
             "appXapigatewaybase" : {
                 "swagger": "2.0",
                 "info": {
