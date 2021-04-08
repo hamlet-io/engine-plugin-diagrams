@@ -65,22 +65,20 @@
       state,
       COMMAND_LINE_OPTIONS_CONFIG_INPUT_CLASS,
       {
-        "CommandLineOptions" : {
-          "Deployment" : {
-            "Group" : {
-                "Name" : "*"
-            },
-            "Framework" : {
-                "Name" : DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
-            },
-            "Provider" : {
-              "Names" : 
-                combineEntities(
-                  [ "diagrams" ],
-                  state.CommandLineOptions.Deployment.Provider.Names![],
-                  UNIQUE_COMBINE_BEHAVIOUR
-                )
-            }
+        "Deployment" : {
+          "Group" : {
+              "Name" : "*"
+          },
+          "Framework" : {
+              "Name" : DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
+          },
+          "Provider" : {
+            "Names" :
+              combineEntities(
+                [ "diagrams" ],
+                state.CommandLineOptions.Deployment.Provider.Names![],
+                UNIQUE_COMBINE_BEHAVIOUR
+              )
           }
         }
       }

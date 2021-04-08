@@ -5,5 +5,5 @@
                                 "",
                                 attributeType
     )]
-    [#return getStackOutput( DIAGRAMSTEST_PROVIDER, formatAttributeId(resourceId, attributeType), inDeploymentUnit, inRegion, inAccount) ]
+    [#return getStatePointValue( formatAttributeId(resourceId, attributeType), inDeploymentUnit, inAccount, inRegion) ]
 [/#function]

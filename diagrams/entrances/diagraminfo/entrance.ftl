@@ -30,26 +30,24 @@
       state,
       COMMAND_LINE_OPTIONS_CONFIG_INPUT_CLASS,
       {
-        "CommandLineOptions" : {
-          "Deployment" : {
-            "Framework" : {
-              "Name" : DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
-            },
-            "Provider" : {
-              "Names" : 
-                combineEntities(
-                  [ "diagrams" ],
-                  state.CommandLineOptions.Deployment.Provider.Names![],
-                  UNIQUE_COMBINE_BEHAVIOUR
-                )
-            }
+        "Deployment" : {
+          "Framework" : {
+            "Name" : DIAGRAMS_EXEC_DEPLOYMENT_FRAMEWORK
           },
-          "View" : {
-            "Name" : DIAGRAMINFO_VIEW_TYPE
-          },
-          "Flow" : {
-            "Names" : [ "views" ]
+          "Provider" : {
+            "Names" :
+              combineEntities(
+                [ "diagrams" ],
+                state.CommandLineOptions.Deployment.Provider.Names![],
+                UNIQUE_COMBINE_BEHAVIOUR
+              )
           }
+        },
+        "View" : {
+          "Name" : DIAGRAMINFO_VIEW_TYPE
+        },
+        "Flow" : {
+          "Names" : [ "views" ]
         }
       }
     )]
