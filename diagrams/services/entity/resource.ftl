@@ -46,7 +46,7 @@
 
         [@execDiagramEntity
             id=occurrence.Core.TypedId
-            name=occurrence.Core.Component.RawName
+            name=(occurrence.Core.SubComponent.RawName)!occurrence.Core.Component.RawName
             groupId=groupId
             resourceProvider=provider
             resourceType=(resourceTypes?values[0])!occurrence.Core.Component.Type
