@@ -9,7 +9,9 @@
     [@initialiseJsonOutput name="groups" /]
     [@initialiseJsonOutput name="relationships" /]
 
-    [@setOutputFileProperties format="json" /]
+    [@setOutputProperties
+        properties={ "type:file" : { "format" : "json" }}
+    /]
 
     [#-- Resources --]
     [#if include?has_content]
@@ -49,7 +51,9 @@
 
 [#-- Diagraminfo --]
 [#function exec_output_diagraminfo level="" include="" ]
-    [@setOutputFileProperties format="json" /]
+    [@setOutputProperties
+        properties={ "type:file" : { "format" : "json" }}
+    /]
 
     [@initialiseJsonOutput name="diagrams" /]
 
