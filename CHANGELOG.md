@@ -1,4 +1,16 @@
-# [0.0.0](https://github.com/hamlet-io/engine-plugin-diagrams/compare/v8.0.1...v0.0.0) (2021-04-02)
+# [0.0.0](https://github.com/hamlet-io/engine-plugin-diagrams/compare/8.1.2...0.0.0) (2021-05-13)
+
+
+
+## [8.1.2](https://github.com/hamlet-io/engine-plugin-diagrams/compare/v8.0.1...8.1.2) (2021-04-16)
+
+
+### Bug Fixes
+
+* align diagrams and diagramstest with input ([d82bbed](https://github.com/hamlet-io/engine-plugin-diagrams/commit/d82bbed9dd7306e0bb6402badea0af81830e11ec))
+* changelog repo url ([c82e05d](https://github.com/hamlet-io/engine-plugin-diagrams/commit/c82e05d38df6547ff4aefca5ca3bf0d89fdbe4a1))
+* handle external tier components and raw names ([a2359ba](https://github.com/hamlet-io/engine-plugin-diagrams/commit/a2359ba26e178e15c663fbee6f07dbdcdfa5bbb2))
+* use loaded providers for providers list ([d087c30](https://github.com/hamlet-io/engine-plugin-diagrams/commit/d087c3056bf3da4f7c378e4458f908e918e79856))
 
 
 
