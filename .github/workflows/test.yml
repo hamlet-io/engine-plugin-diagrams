@@ -22,7 +22,7 @@ jobs:
           pip install --pre hamlet-cli
 
           sudo apt-get update
-          sudo apt-get install -y jq dos2unix
+          sudo apt-get install -y jq dos2unix graphviz
 
       - name: Run Diagram Generation
         env:
@@ -32,4 +32,4 @@ jobs:
           mkdir -p ~/.hamlet
           hamlet engine set-engine unicycle
 
-          hamlet -i mock -p diagramstest -p diagrams visual draw-diagrams
+          hamlet -i mock -p diagramstest -p diagrams visual draw-diagrams -d "${GITHUB_WORKSPACE}/diagrams/"
