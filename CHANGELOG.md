@@ -8,11 +8,16 @@
 * add docker based packaging support
 #### Fixes
 
+* changelog generation
+* base branch
 * (ci): update triggers for prs
 * update asset dir
 * default branch for packaging
+#### Docs
 
-Full set of changes: [`8.1.2...4c941ce`](https://github.com/hamlet-io/engine-plugin-diagrams/compare/8.1.2...4c941ce)
+* automatic changelogs and readme update
+
+Full set of changes: [`8.1.2...2cff547`](https://github.com/hamlet-io/engine-plugin-diagrams/compare/8.1.2...2cff547)
 
 ## 8.1.2 (2021-05-17)
 
