@@ -1,28 +1,48 @@
-name: package
+name: release
 
 on:
-
-  # Workflow run will run after another job has completed
-  # so we wait for the workflow to complete then get going
-  workflow_run:
-    workflows:
-      - 'testing'
-
+  push:
     branches:
       - 'main'
     tags:
-      - "[0-9]+.[0-9]+.[0-9]+"
-
-    types:
-      - completed
-
+      - '[0-9]+.[0-9]+.[0-9]+'
   pull_request:
 
-
 jobs:
-  build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  diagram_draw_test:
     runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Java Setup
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '8'
+
+      - name: Install
+        run: |
+          pip install hamlet-cli
+          sudo apt-get install -y jq dos2unix graphviz
+
+      - name: Run Diagram Generation
+        env:
+          GENERATION_PLUGIN_DIRS: ${{ github.workspace }}
+        run: |
+          hamlet engine set-engine unicycle
+          hamlet -i mock -p diagramstest -p diagrams visual draw-diagrams -d "diagrams/"
+
+
+
+  package:
+    needs:
+      - diagram_draw_test
+
+    if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags') }}
+    runs-on: ubuntu-latest
+
     steps:
 
       - name: Checkout
@@ -59,7 +79,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          push: ${{ startsWith(github.ref, 'refs/tags/*') || github.ref == 'refs/heads/main' }}
+          push: ${{ startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           target: base_package
