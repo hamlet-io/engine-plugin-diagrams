@@ -1,6 +1,14 @@
 # Changelog
 
-## Unreleased (2021-06-21)
+## Unreleased (2021-07-09)
+
+#### Fixes
+
+* (ci): changelog base for pr ([#34](https://github.com/hamlet-io/engine-plugin-diagrams/issues/34))
+
+Full set of changes: [`8.2.1...502a72c`](https://github.com/hamlet-io/engine-plugin-diagrams/compare/8.2.1...502a72c)
+
+## 8.2.1 (2021-07-09)
 
 #### New Features
 
@@ -8,11 +16,23 @@
 * add docker based packaging support
 #### Fixes
 
+* (ci): tag triggers for packages
+* tagging defaults
+* changelog generation
+* base branch
 * (ci): update triggers for prs
 * update asset dir
 * default branch for packaging
+#### Refactorings
 
-Full set of changes: [`8.1.2...4c941ce`](https://github.com/hamlet-io/engine-plugin-diagrams/compare/8.1.2...4c941ce)
+* (ci): quality of life updates for ci
+* (ci): remove the git dir from docker image
+* (ci): updates from testing and ops
+#### Docs
+
+* automatic changelogs and readme update
+
+Full set of changes: [`8.1.2...8.2.1`](https://github.com/hamlet-io/engine-plugin-diagrams/compare/8.1.2...8.2.1)
 
 ## 8.1.2 (2021-05-17)
 
