@@ -11,6 +11,8 @@ on:
 jobs:
   diagram_draw_test:
     runs-on: ubuntu-latest
+    env:
+      HAMLET_ENGINE: unicycle
     steps:
 
       - name: Checkout
@@ -31,7 +33,7 @@ jobs:
         env:
           GENERATION_PLUGIN_DIRS: ${{ github.workspace }}
         run: |
-          hamlet engine set-engine unicycle
+          hamlet engine get-engine
           hamlet -i mock -p diagramstest -p diagrams visual draw-diagrams -d "diagrams/"
 
 
