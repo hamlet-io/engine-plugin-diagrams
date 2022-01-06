@@ -1,12 +1,26 @@
 # Changelog
 
-## Unreleased (2021-07-09)
+## Unreleased (2021-10-04)
+
+#### Fixes
+
+* hamlet engine install process
+#### Refactorings
+
+* hamlet package install
+#### Others
+
+* changelog bump ([#30](https://github.com/hamlet-io/engine-plugin-diagrams/issues/30))
+
+Full set of changes: [`8.3.0...1aee5e4`](https://github.com/hamlet-io/engine-plugin-diagrams/compare/8.3.0...1aee5e4)
+
+## 8.3.0 (2021-07-09)
 
 #### Fixes
 
 * (ci): changelog base for pr ([#34](https://github.com/hamlet-io/engine-plugin-diagrams/issues/34))
 
-Full set of changes: [`8.2.1...502a72c`](https://github.com/hamlet-io/engine-plugin-diagrams/compare/8.2.1...502a72c)
+Full set of changes: [`8.2.1...8.3.0`](https://github.com/hamlet-io/engine-plugin-diagrams/compare/8.2.1...8.3.0)
 
 ## 8.2.1 (2021-07-09)
 
